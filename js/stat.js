@@ -52,7 +52,7 @@ var drawBar = function (ctx, i, currentBarHeight) {
 };
 
 var randomColor = function () {
-  return 'rgba(0, 0, 255, ' + Math.floor(Math.random() * 10) / 10 + ')';
+  return 'rgba(0, 0, 255, ' + Math.floor(Math.random() * 10 + 1) / 10 + ')';
 };
 
 var barColor = function (ctx, name) {
