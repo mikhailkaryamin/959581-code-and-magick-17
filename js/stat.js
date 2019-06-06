@@ -10,7 +10,8 @@ var TEXT_GAP = 30;
 var TEXT_HEIGHT = 20;
 var BAR_WIDTH = 40;
 var CHART_HEIGHT = 150;
-var barHeight = (CHART_HEIGHT - TEXT_HEIGHT - 2 * GAP) * -1;
+var BAR_HEIGHT = (CHART_HEIGHT - TEXT_HEIGHT - 2 * GAP) * -1;
+
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -29,6 +30,30 @@ var getMaxElement = function (arr) {
   return maxElement;
 };
 
+
+var renderBar = function (ctx, names, times) {
+  var maxTime = getMaxElement(times);
+
+  for (var i = 0; i < names.length; i++) {
+    var barHeightCurrent = BAR_HEIGHT * times[i] / maxTime;
+
+    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - BAR_GAP + barHeightCurrent);
+    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - GAP);
+
+    var colorBarYour = ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+
+    var randomColorBar = 'rgba(0, 0, 255, ' + Math.floor(Math.random() * 10) / 10 + ')';
+
+    var currentName = names[i];
+
+    var colorBar = currentName === 'Вы' ? colorBarYour : randomColorBar;
+    ctx.fillStyle = colorBar;
+
+    ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - GAP - TEXT_HEIGHT, BAR_WIDTH, barHeightCurrent);
+    ctx.fillStyle = '#000';
+  }
+};
+
 window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.3)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
@@ -38,22 +63,5 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Ура вы победили!', CLOUD_X + TEXT_GAP, CLOUD_Y + TEXT_GAP);
   ctx.fillText('Список результатов:', CLOUD_X + TEXT_GAP, CLOUD_Y + TEXT_GAP + TEXT_HEIGHT);
 
-  var maxTime = getMaxElement(times);
-
-  for (var i = 0; i < names.length; i++) {
-    var barHeightTmp = barHeight * times[i] / maxTime;
-
-    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - BAR_GAP + barHeightTmp);
-    ctx.fillText(names[i], CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - GAP);
-
-    if (i < 1) {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      var randomColor = 'rgba(0, 0, 255, ' + Math.floor(Math.random() * 10) / 10 + ')';
-      ctx.fillStyle = randomColor;
-    }
-
-    ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - GAP - TEXT_HEIGHT, BAR_WIDTH, barHeightTmp);
-    ctx.fillStyle = '#000';
-  }
+  renderBar(ctx, names, times);
 };
