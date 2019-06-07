@@ -51,13 +51,13 @@ var drawBar = function (ctx, i, currentBarHeight) {
   ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + CLOUD_HEIGHT - GAP - TEXT_HEIGHT, BAR_WIDTH, currentBarHeight);
 };
 
-var randomColor = function () {
+var getRandomColor = function () {
   return 'rgba(0, 0, 255, ' + Math.floor(Math.random() * 10 + 1) / 10 + ')';
 };
 
-var barColor = function (ctx, name) {
+var getBarColor = function (ctx, name) {
   var barColorYour = ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-  var сurrentСolorBar = name === 'Вы' ? barColorYour : randomColor();
+  var сurrentСolorBar = name === 'Вы' ? barColorYour : getRandomColor();
 
   return сurrentСolorBar;
 };
@@ -69,7 +69,7 @@ var renderBars = function (ctx, names, times) {
     var currentBarHeight = BAR_HEIGHT * times[i] / maxTime;
     printTime(ctx, times[i], i, currentBarHeight);
     printName(ctx, names[i], i);
-    ctx.fillStyle = barColor(ctx, names[i]);
+    ctx.fillStyle = getBarColor(ctx, names[i]);
     drawBar(ctx, i, currentBarHeight);
   }
 };
