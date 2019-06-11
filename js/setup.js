@@ -4,23 +4,26 @@ var SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Валь
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'greenblack', 'red', 'blue', 'yellow', 'green'];
 var WIZARD_COUNT = 4;
-var USER_DIALOG = document.querySelector('.setup');
+var userDialog = document.querySelector('.setup');
+var similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  .content
+  .querySelector('.setup-similar-item');
 
 // показывает диалог
 
 var showUserDialog = function () {
-  USER_DIALOG.classList.remove('hidden');
+  userDialog.classList.remove('hidden');
 };
 
 // получает случайный элемент массива
 
 var getRandomArrayIndex = function (array) {
-  return Math.floor(Math.random() * (array.length - 1) + 1);
+  return Math.floor(Math.random() * (array.length - 1));
 };
 
 // получает данные волшебника
 
-var getDataWizard = function (names, surnames, coatColor, eyesColor) {
+var getWizardData = function (names, surnames, coatColor, eyesColor) {
   var nameAndSurname = names[getRandomArrayIndex(names)] + ' ' + surnames[getRandomArrayIndex(surnames)];
   var randomCoatColor = coatColor[getRandomArrayIndex(coatColor)];
   var randomEyesColor = eyesColor[getRandomArrayIndex(eyesColor)];
@@ -38,7 +41,7 @@ var getWizards = function () {
   var wizards = [];
 
   for (var i = 0; i < WIZARD_COUNT; i++) {
-    wizards.push(getDataWizard(NAMES, SURNAMES, COAT_COLORS, EYES_COLORS));
+    wizards.push(getWizardData(NAMES, SURNAMES, COAT_COLORS, EYES_COLORS));
   }
 
   return wizards;
@@ -47,11 +50,7 @@ var getWizards = function () {
 // получает фрагмент с волшебником
 
 var renderWizard = function (wizard) {
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-    .content
-    .querySelector('.setup-similar-item');
   var wizardElement = similarWizardTemplate.cloneNode(true);
-
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
@@ -61,28 +60,34 @@ var renderWizard = function (wizard) {
 
 // вставляет фрагменты в DOM
 
-var getListWizards = function (wizards) {
-  var similarListElement = USER_DIALOG.querySelector('.setup-similar-list');
+var generateWizardsList = function (wizards) {
   var fragment = document.createDocumentFragment();
-
+  var similarListElement = userDialog.querySelector('.setup-similar-list');
   for (var i = 0; i < wizards.length; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
   }
-  similarListElement.appendChild(fragment);
 
+  similarListElement.appendChild(fragment);
   return fragment;
 };
 
 // показывает блок с волшебниками
 
-var showListWizards = function () {
-  USER_DIALOG.querySelector('.setup-similar').classList.remove('hidden');
+var showWizards = function () {
+  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+};
+
+var insertWizardsList = function (wizardsList) {
+  return wizardsList;
 };
 
 showUserDialog();
 
-getListWizards(getWizards());
+var wizards = getWizards();
+var wizardsList = generateWizardsList(wizards);
 
-showListWizards();
+insertWizardsList(wizardsList);
+
+showWizards();
 
 
