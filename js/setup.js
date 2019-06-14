@@ -79,7 +79,6 @@ var insertWizardsList = function (wizardsList) {
   var similarListElement = userDialog.querySelector('.setup-similar-list');
 
   similarListElement.appendChild(wizardsList);
-  return wizardsList;
 };
 
 var wizards = getWizards();
