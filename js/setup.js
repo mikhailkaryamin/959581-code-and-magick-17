@@ -4,11 +4,10 @@ var SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Валь
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'greenblack', 'red', 'blue', 'yellow', 'green'];
 var WIZARD_COUNT = 4;
-var userDialog = document.querySelector('.setup');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .content
   .querySelector('.setup-similar-item');
-
+var userDialog = document.querySelector('.setup');
 // показывает диалог
 
 var showUserDialog = function () {
@@ -62,12 +61,11 @@ var renderWizard = function (wizard) {
 
 var generateWizardsList = function (wizards) {
   var fragment = document.createDocumentFragment();
-  var similarListElement = userDialog.querySelector('.setup-similar-list');
+
   for (var i = 0; i < wizards.length; i++) {
     fragment.appendChild(renderWizard(wizards[i]));
   }
 
-  similarListElement.appendChild(fragment);
   return fragment;
 };
 
@@ -78,13 +76,16 @@ var showWizards = function () {
 };
 
 var insertWizardsList = function (wizardsList) {
+  var similarListElement = userDialog.querySelector('.setup-similar-list');
+
+  similarListElement.appendChild(wizardsList);
   return wizardsList;
 };
 
-showUserDialog();
-
 var wizards = getWizards();
 var wizardsList = generateWizardsList(wizards);
+
+showUserDialog();
 
 insertWizardsList(wizardsList);
 
