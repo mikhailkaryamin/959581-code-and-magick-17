@@ -145,27 +145,27 @@ var editionAppearance = function () {
   };
 
   var changeWizardCoat = function (coatColors) {
-    setupWizardCoatElement.style.fill = changeColor(coatColors);
+    var colorCoatCurrent = changeColor(coatColors);
 
-    var colorCoat = setupWizardCoatElement.style.fill;
+    setupWizardCoatElement.style.fill = colorCoatCurrent;
 
-    return colorCoat;
+    return colorCoatCurrent;
   };
 
   var changeWizardEyes = function (eyesColors) {
-    setupWizardEyesElement.style.fill = changeColor(eyesColors);
+    var colorEyesCurrent = changeColor(eyesColors);
 
-    var colorEyes = setupWizardEyesElement.style.fill;
+    setupWizardEyesElement.style.fill = colorEyesCurrent;
 
-    return colorEyes;
+    return colorEyesCurrent;
   };
 
   var changeFireBall = function (fireBalls) {
-    setupFireBallElement.style.background = changeColor(fireBalls);
+    var colorFireBallCurrent = changeColor(fireBalls);
 
-    var colorFireBall = setupFireBallElement.style.background;
+    setupFireBallElement.style.background = colorFireBallCurrent;
 
-    return colorFireBall;
+    return colorFireBallCurrent;
   };
 
   setupWizardCoatElement.addEventListener('click', function () {
