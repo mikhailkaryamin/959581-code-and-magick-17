@@ -78,50 +78,29 @@ var insertWizardsList = function () {
 // Нажатие на элемент .setup-open удаляет класс hidden
 // у блока setup. Нажатие на элемент .setup-close, расположенный
 // внутри блока setup возвращает ему класс hidden.
-var openedClosedSetup = function () {
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
-  var setupElement = document.querySelector('.setup');
-  var setupOpenElement = document.querySelector('.setup-open');
-  var setupCloseElement = setupElement.querySelector('.setup-close');
+var setupElement = document.querySelector('.setup');
+var setupOpenElement = document.querySelector('.setup-open');
+var setupCloseElement = setupElement.querySelector('.setup-close');
 
-  var onPopupEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEYCODE) {
-      closePopup();
-    }
-  };
+var onPopupEscPress = function (evt) {
+  var inputNameElement = document.querySelector('.setup-user-name:focus');
 
-  var openPopup = function () {
-    setupElement.classList.remove('hidden');
-    document.addEventListener('keydown', onPopupEscPress);
-  };
+  if (evt.keyCode === ESC_KEYCODE && !inputNameElement) {
+    closePopup();
+  }
+};
 
-  var closePopup = function () {
-    setupElement.classList.add('hidden');
-    document.removeEventListener('keydown', onPopupEscPress);
-  };
+var openPopup = function () {
+  setupElement.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
 
-  setupOpenElement.addEventListener('click', function () {
-    openPopup();
-
-    setupCloseElement.addEventListener('click', function () {
-      closePopup();
-    });
-
-    setupCloseElement.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
-        closePopup();
-      }
-    });
-  });
-
-  setupOpenElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      openPopup();
-    }
-  });
-
+var closePopup = function () {
+  setupElement.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
 };
 
 // Изменяет цвет мантии, глаз и фаербола по нажатию
@@ -182,6 +161,24 @@ insertWizardsList();
 
 showWizards();
 
-openedClosedSetup();
+setupOpenElement.addEventListener('click', function () {
+  openPopup();
+
+  setupCloseElement.addEventListener('click', function () {
+    closePopup();
+  });
+
+  setupCloseElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      closePopup();
+    }
+  });
+});
+
+setupOpenElement.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
 
 editionAppearance();
