@@ -11,11 +11,6 @@ var similarWizardTemplateElement = document.querySelector('#similar-wizard-templ
   .querySelector('.setup-similar-item');
 var userDialogElement = document.querySelector('.setup');
 
-// показывает диалог
-var showUserDialog = function () {
-  userDialogElement.classList.remove('hidden');
-};
-
 // получает случайный элемент массива
 var getRandomValueFrom = function (array) {
   var i = Math.floor(Math.random() * (array.length - 1));
@@ -109,6 +104,16 @@ var openedClosedSetup = function () {
 
   setupOpenElement.addEventListener('click', function () {
     openPopup();
+
+    setupCloseElement.addEventListener('click', function () {
+      closePopup();
+    });
+
+    setupCloseElement.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ENTER_KEYCODE) {
+        closePopup();
+      }
+    });
   });
 
   setupOpenElement.addEventListener('keydown', function (evt) {
@@ -117,15 +122,6 @@ var openedClosedSetup = function () {
     }
   });
 
-  setupCloseElement.addEventListener('click', function () {
-    closePopup();
-  });
-
-  setupCloseElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup();
-    }
-  });
 };
 
 // Изменяет цвет мантии, глаз и фаербола по нажатию
@@ -139,13 +135,8 @@ var editionAppearance = function () {
   var inputEyesColorElement = setupPlayerElement.querySelector('input[name=eyes-color]');
   var inputFireBallColorElement = setupFireBallElement.querySelector('input[name=fireball-color]');
 
-  var changeColor = function (colors) {
-    var randomColor = getRandomValueFrom(colors);
-    return randomColor;
-  };
-
   var changeWizardCoat = function (coatColors) {
-    var colorCoatCurrent = changeColor(coatColors);
+    var colorCoatCurrent = getRandomValueFrom(coatColors);
 
     setupWizardCoatElement.style.fill = colorCoatCurrent;
 
@@ -153,7 +144,7 @@ var editionAppearance = function () {
   };
 
   var changeWizardEyes = function (eyesColors) {
-    var colorEyesCurrent = changeColor(eyesColors);
+    var colorEyesCurrent = getRandomValueFrom(eyesColors);
 
     setupWizardEyesElement.style.fill = colorEyesCurrent;
 
@@ -161,7 +152,7 @@ var editionAppearance = function () {
   };
 
   var changeFireBall = function (fireBalls) {
-    var colorFireBallCurrent = changeColor(fireBalls);
+    var colorFireBallCurrent = getRandomValueFrom(fireBalls);
 
     setupFireBallElement.style.background = colorFireBallCurrent;
 
@@ -186,8 +177,6 @@ var editionAppearance = function () {
     inputFireBallColorElement.value = colorFireBall;
   });
 };
-
-showUserDialog();
 
 insertWizardsList();
 
