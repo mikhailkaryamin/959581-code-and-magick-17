@@ -73,7 +73,7 @@
 
   // Изменяет цвет мантии, глаз и фаербола по нажатию
 
-  var editionAppearance = function () {
+  var editAppearance = function () {
     var setupPlayerElement = document.querySelector('.setup-player');
     var setupWizardCoatElement = setupPlayerElement.querySelector('.wizard-coat');
     var setupWizardEyesElement = setupPlayerElement.querySelector('.wizard-eyes');
@@ -127,7 +127,7 @@
 
 
   // Вызовы функций и обработчиков событий
-  editionAppearance();
+  editAppearance();
 
   insertWizardsList();
 

@@ -6,9 +6,7 @@ window.util = (function () {
 
   return {
     isEscEvent: function (evt, action) {
-      var inputNameElement = document.querySelector('.setup-user-name:focus');
-
-      if (evt.keyCode === ESC_KEYCODE && !inputNameElement) {
+      if (evt.keyCode === ESC_KEYCODE) {
         action();
       }
     },

@@ -17,7 +17,11 @@
   var setupCloseElement = setupElement.querySelector('.setup-close');
 
   var onPopupEscPress = function (evt) {
-    window.util.isEscEvent(evt, closePopup);
+    var inputNameElement = document.querySelector('.setup-user-name:focus');
+
+    if (!inputNameElement) {
+      window.util.isEscEvent(evt, closePopup);
+    }
   };
 
   var openPopup = function () {
@@ -30,57 +34,54 @@
     document.removeEventListener('keydown', onPopupEscPress);
   };
 
-  (function () {
-    var dialogHandler = userDialogElement.querySelector('.upload');
+  var dialogHandler = userDialogElement.querySelector('.upload');
 
-    dialogHandler.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
+  dialogHandler.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
 
-      var startCoords = {
-        x: evt.clientX,
-        y: evt.clientY
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var dragged = false;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      dragged = true;
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
 
-      var dragged = false;
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
 
-      var onMouseMove = function (moveEvt) {
-        moveEvt.preventDefault();
-        dragged = true;
+      userDialogElement.style.top = (userDialogElement.offsetTop - shift.y) + 'px';
+      userDialogElement.style.left = (userDialogElement.offsetLeft - shift.x) + 'px';
+    };
 
-        var shift = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (evtDragged) {
+          evtDragged.preventDefault();
+          dialogHandler.removeEventListener('click', onClickPreventDefault);
         };
+        dialogHandler.addEventListener('click', onClickPreventDefault);
+      }
+    };
 
-        startCoords = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
-        };
-
-        userDialogElement.style.top = (userDialogElement.offsetTop - shift.y) + 'px';
-        userDialogElement.style.left = (userDialogElement.offsetLeft - shift.x) + 'px';
-      };
-
-      var onMouseUp = function (upEvt) {
-        upEvt.preventDefault();
-
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-
-        if (dragged) {
-          var onClickPreventDefault = function (evtDragged) {
-            evtDragged.preventDefault();
-            dialogHandler.removeEventListener('click', onClickPreventDefault);
-          };
-          dialogHandler.addEventListener('click', onClickPreventDefault);
-        }
-      };
-
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
-
-  })();
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 
   // Вызовы функций и обработчиков событий
 
