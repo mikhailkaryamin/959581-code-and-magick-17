@@ -1,13 +1,13 @@
 'use strict';
 
 /*
-Функция upload будет принимать на вход 2 параметра:
+Функция save будет принимать на вход 2 параметра:
 - объект с данными, которые необходим отправить — data
 - функцию обратного вызова onSuccess, которая будет вызываться каждый раз, когда данные отправлены успешно.
 */
 (function () {
   // URL-адрес сервера, на который должны отправиться данные
-  var upload = function (data, onLoad, onError) {
+  var save = function (data, onLoad, onError) {
     var URL = 'https://js.dump.academy/code-and-magick';
     var xhr = new XMLHttpRequest();
 
@@ -61,7 +61,7 @@
 
 
   window.backend = {
-    upload: upload,
+    save: save,
     load: load
   };
 
