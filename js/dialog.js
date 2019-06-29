@@ -3,12 +3,6 @@
 (function () {
   var userDialogElement = document.querySelector('.setup');
 
-  // показывает блок с волшебниками
-  var showWizards = function () {
-    userDialogElement.querySelector('.setup-similar').classList.remove('hidden');
-  };
-
-
   // Нажатие на элемент .setup-open удаляет класс hidden
   // у блока setup. Нажатие на элемент .setup-close, расположенный
   // внутри блока setup возвращает ему класс hidden.
@@ -84,9 +78,6 @@
   });
 
   // Вызовы функций и обработчиков событий
-
-  showWizards();
-
   setupOpenElement.addEventListener('click', function () {
     openPopup();
 
