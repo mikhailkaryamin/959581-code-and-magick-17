@@ -25,45 +25,13 @@
     return rank;
   };
 
-  // Фильтр по алфавиту
-  var namesComparator = function (left, right) {
-    if (left > right) {
-      return 1;
-    } else if (left < right) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-
   // Фильтр магов и создания массива
   var updateWizards = function () {
-    var sameCoatAndEyesWizards = wizards.filter(function (it) {
-      return it.colorCoat === coatColor &&
-        it.colorEyes === eyesColor;
-    });
-
-    var sameCoatWizards = wizards.filter(function (it) {
-      return it.coatColor === coatColor;
-    });
-    var sameEyesWizards = wizards.filter(function (it) {
-      return it.eyesColor === eyesColor;
-    });
-
-    var filteredWizards = sameCoatAndEyesWizards;
-    filteredWizards = filteredWizards.concat(sameCoatWizards);
-    filteredWizards = filteredWizards.concat(sameEyesWizards);
-    filteredWizards = filteredWizards.concat(wizards);
-
-    var uniqueWizards =
-    filteredWizards.filter(function (it, i) {
-      return filteredWizards.indexOf(it) === i;
-    });
-
-    window.render.generateWizardsList(uniqueWizards.sort(function (left, right) {
+    window.render.generateWizardsList(wizards.slice().
+    sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
-        rankDiff = namesComparator(left.name, right.name);
+        rankDiff = wizards.indexOf(left) - wizards.indexOf(right);
       }
       return rankDiff;
     }));
@@ -82,6 +50,8 @@
     var inputCoatColorElement = setupPlayerElement.querySelector('input[name=coat-color]');
     var inputEyesColorElement = setupPlayerElement.querySelector('input[name=eyes-color]');
     var inputFireBallColorElement = setupFireBallElement.querySelector('input[name=fireball-color]');
+
+    var debounceSortWizards = window.debounce(updateWizards);
 
     var changeWizardCoat = function (coatColors) {
       var colorCoatCurrent = getRandomValueFrom(coatColors);
@@ -110,14 +80,14 @@
     setupWizardCoatElement.addEventListener('click', function () {
       coatColor = changeWizardCoat(COAT_COLORS);
       inputCoatColorElement.value = coatColor;
-      window.debounce.delay(updateWizards);
+      debounceSortWizards();
     });
 
     setupWizardEyesElement.addEventListener('click', function () {
       eyesColor = changeWizardEyes(EYES_COLORS);
       inputEyesColorElement.value = eyesColor;
 
-      window.debounce.delay(updateWizards);
+      debounceSortWizards();
     });
 
     setupFireBallElement.addEventListener('click', function () {
